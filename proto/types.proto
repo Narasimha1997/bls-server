@@ -1,0 +1,91 @@
+syntax = "proto3";
+package types;
+
+message SignRequestRaw {
+    string key_identity = 1;
+    bytes message = 2;
+}
+
+message SignRequestHex {
+    string key_identity = 1;
+    bytes message = 2;
+}
+
+message SignResponseRaw {
+    bool success = 1;
+    bytes signature = 2;
+}
+
+message SignResponseHex {
+    bool success = 1;
+    string signature = 2;
+}
+
+message VerifyRequestRaw {
+    bytes public_key = 1;
+    bytes message = 2; 
+}
+
+message VerifyRequestHex {
+    string public_key = 1;
+    string message = 2;
+}
+
+message VerifyResponse {
+    bool success = 1;
+    bool is_verified = 2;
+}
+
+message AggregateRequestRaw {
+    repeated bytes signatures = 1;
+}
+
+message AggregateRequestHex {
+    repeated string signatures = 2;
+}
+
+message AggregateResponseRaw {
+    bool success = 1;
+    bytes signature = 2;
+}
+
+message AggregateResponseHex {
+    bool success = 1;
+    string signature = 2;
+}
+
+message VerifyAggregateRequestRaw {
+    repeated VerifyRequestRaw input_data = 1;
+    bytes aggregate_signature = 2;
+}
+
+message VerifyAggregateRequestHex {
+    repeated VerifyRequestHex input_data = 1;
+    bytes aggregate_signature = 2;
+}
+
+message VerifyAggregateResponse {
+    bool success = 1;
+    bool is_verified = 2;
+}
+
+message GenerateKeypairRequestRaw {
+    bytes seed = 1;
+}
+
+message GenerateKeypairRequestHex {
+    bytes seed = 1;
+}
+
+message GenerateKeypairResponseRaw {
+    bool success = 1;
+    bytes public_key = 2;
+    bytes private_key = 3;
+}
+
+
+message GenerateKeypairResponseHex {
+    bool success = 1;
+    string public_key = 2;
+    string private_key = 3;
+}
