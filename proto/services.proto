@@ -1,0 +1,10 @@
+syntax = "proto3";
+import "types.proto";
+
+service BLSSigning {
+
+    // generate key-pairs either as bytes or hex string based on the request
+    rpc GenerateKeypairRaw (bls_proto.GenerateKeypairRequestRaw) returns(bls_proto.GenerateKeypairResponseRaw);
+    rpc GenerateKeypairHex (bls_proto.GenerateKeypairRequestHex) returns(bls_proto.GenerateKeypairResponseHex);
+
+}
