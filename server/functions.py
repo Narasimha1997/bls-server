@@ -7,7 +7,7 @@ from blspy import (
     PrivateKey,
 )
 
-from server import backends
+import backends
 
 def urandom_bytes() -> bytes:
     return os.urandom(128)
@@ -54,5 +54,4 @@ def generate_keypair(env: dict, key_id: str, keep_raw=True):
     if keep_raw:
         return pubk_b
     return pubk_b.hex()
-
 

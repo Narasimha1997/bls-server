@@ -1,5 +1,4 @@
 import json
-from os import EX_CANTCREAT
 
 class PrivateKeyBackendPutException(Exception):
     def __init__(self, *args: object) -> None:

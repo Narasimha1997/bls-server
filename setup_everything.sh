@@ -11,8 +11,8 @@ function install_deps() {
 
 function compile_proto_files() {
     # run protobuf compiler over proto files
-    protoc -I=$PROTO_SOURCE --python_out=$PROTO_DEST $PROTO_SOURCE/types.proto
-    protoc -I=$PROTO_SOURCE --python_out=$PROTO_DEST $PROTO_SOURCE/services.proto
+    python3 -m grpc_tools.protoc -I=$PROTO_SOURCE --python_out=$PROTO_DEST --grpc_python_out=$PROTO_DEST $PROTO_SOURCE/types.proto
+    python3 -m grpc_tools.protoc -I=$PROTO_SOURCE --python_out=$PROTO_DEST --grpc_python_out=$PROTO_DEST $PROTO_SOURCE/services.proto
 }
 
 # 1.
