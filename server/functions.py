@@ -7,6 +7,8 @@ from blspy import (
     PrivateKey,
 )
 
+from server import backends
+
 def urandom_bytes() -> bytes:
     return os.urandom(128)
 
@@ -16,19 +18,18 @@ def prepare_env() -> dict:
     # port
     env_vars['port'] = os.getenv("GRPC_PORT", "8000")
 
-    # private keys (note: Since you are passing the private keys as env, make sure you are mounting those envs to this container by secure means)
-    key_map = os.getenv("KEY_MAP", None)
-    keys = dict()
-    if key_map:
-        all_keys = key_map.split("::")
+    key_vars = os.getenv("KEY_STORAGE_PARAMETERS", None)
+    params = dict()
+    if key_vars:
+        all_keys = key_vars.split("::")
         for key in all_keys:
             splits = key.split("=")
             if len(splits) != 2:
-                raise Exception("malformed key mapping string, it should be of the form key_name1=key::key_name2=key::key_name3=key...")
+                raise Exception("malformed parameters string, it should be of the form key_name1=value::key_name2=value::key_name3=vakue...")
             name, key = splits
-            keys[name] = key
+            params[name] = key
     
-    env_vars['keys'] = keys
+    env_vars['keystore_backend'] = backends.FileStorageBackend(**params)
     
     # seed -  this is used for generating new private keys
     seed = os.getenv("KEYGEN_SEED_HEX", urandom_bytes())
@@ -41,14 +42,17 @@ def prepare_env() -> dict:
     return env_vars
 
 
-def generate_keypair(env: dict, keep_raw=True):
+def generate_keypair(env: dict, key_id: str, keep_raw=True):
     seed = env['seed']
     private_key = AugSchemeMPL.key_gen(seed)
     public_key = private_key.get_g1()
     prvk_b, pubk_b = bytes(private_key), bytes(public_key)
 
-    if keep_raw:
-        return prvk_b, pubk_b
+    # register the newly generated key
+    env['key_store'].put(key_id, prvk_b.hex())
 
-    return prvk_b.hex(), pubk_b.hex()
+    if keep_raw:
+        return pubk_b
+    return pubk_b.hex()
+
 

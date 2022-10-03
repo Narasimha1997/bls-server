@@ -4,7 +4,7 @@ PROTO_SOURCE=$PWD/proto
 PROTO_DEST=$PWD/server
 REQUIREMENTS_DIR=$PWD/requirements.txt
 
-func install_deps() {
+function install_deps() {
     # install all pip dependencies
     pip3 install -r $REQUIREMENTS_DIR
 }

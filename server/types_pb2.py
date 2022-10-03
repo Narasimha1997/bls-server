@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0btypes.proto\x12\tbls_proto\"7\n\x0eSignRequestRaw\x12\x14\n\x0ckey_identity\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"7\n\x0eSignRequestHex\x12\x14\n\x0ckey_identity\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"5\n\x0fSignResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\x0c\"5\n\x0fSignResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\t\"7\n\x10VerifyRequestRaw\x12\x12\n\npublic_key\x18\x01 \x01(\x0c\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"7\n\x10VerifyRequestHex\x12\x12\n\npublic_key\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\"6\n\x0eVerifyResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x13\n\x0bis_verified\x18\x02 \x01(\x08\")\n\x13\x41ggregateRequestRaw\x12\x12\n\nsignatures\x18\x01 \x03(\x0c\")\n\x13\x41ggregateRequestHex\x12\x12\n\nsignatures\x18\x02 \x03(\t\":\n\x14\x41ggregateResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\x0c\":\n\x14\x41ggregateResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\t\"i\n\x19VerifyAggregateRequestRaw\x12/\n\ninput_data\x18\x01 \x03(\x0b\x32\x1b.bls_proto.VerifyRequestRaw\x12\x1b\n\x13\x61ggregate_signature\x18\x02 \x01(\x0c\"i\n\x19VerifyAggregateRequestHex\x12/\n\ninput_data\x18\x01 \x03(\x0b\x32\x1b.bls_proto.VerifyRequestHex\x12\x1b\n\x13\x61ggregate_signature\x18\x02 \x01(\x0c\"?\n\x17VerifyAggregateResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x13\n\x0bis_verified\x18\x02 \x01(\x08\")\n\x19GenerateKeypairRequestRaw\x12\x0c\n\x04seed\x18\x01 \x01(\x0c\")\n\x19GenerateKeypairRequestHex\x12\x0c\n\x04seed\x18\x01 \x01(\x0c\"V\n\x1aGenerateKeypairResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\x12\x13\n\x0bprivate_key\x18\x03 \x01(\x0c\"V\n\x1aGenerateKeypairResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x12\n\npublic_key\x18\x02 \x01(\t\x12\x13\n\x0bprivate_key\x18\x03 \x01(\tb\x06proto3'
+  serialized_pb=b'\n\x0btypes.proto\x12\tbls_proto\"7\n\x0eSignRequestRaw\x12\x14\n\x0ckey_identity\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"7\n\x0eSignRequestHex\x12\x14\n\x0ckey_identity\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"L\n\x0fSignResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\x0c\x12\x15\n\rerror_message\x18\x03 \x01(\t\"L\n\x0fSignResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\t\x12\x15\n\rerror_message\x18\x03 \x01(\t\"7\n\x10VerifyRequestRaw\x12\x12\n\npublic_key\x18\x01 \x01(\x0c\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"N\n\x10VerifyRequestHex\x12\x12\n\npublic_key\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x15\n\rerror_message\x18\x03 \x01(\t\"M\n\x0eVerifyResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x13\n\x0bis_verified\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\")\n\x13\x41ggregateRequestRaw\x12\x12\n\nsignatures\x18\x01 \x03(\x0c\")\n\x13\x41ggregateRequestHex\x12\x12\n\nsignatures\x18\x02 \x03(\t\"Q\n\x14\x41ggregateResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\x0c\x12\x15\n\rerror_message\x18\x03 \x01(\t\":\n\x14\x41ggregateResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\t\"i\n\x19VerifyAggregateRequestRaw\x12/\n\ninput_data\x18\x01 \x03(\x0b\x32\x1b.bls_proto.VerifyRequestRaw\x12\x1b\n\x13\x61ggregate_signature\x18\x02 \x01(\x0c\"i\n\x19VerifyAggregateRequestHex\x12/\n\ninput_data\x18\x01 \x03(\x0b\x32\x1b.bls_proto.VerifyRequestHex\x12\x1b\n\x13\x61ggregate_signature\x18\x02 \x01(\x0c\"V\n\x17VerifyAggregateResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x13\n\x0bis_verified\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\")\n\x19GenerateKeypairRequestRaw\x12\x0c\n\x04seed\x18\x01 \x01(\x0c\")\n\x19GenerateKeypairRequestHex\x12\x0c\n\x04seed\x18\x01 \x01(\x0c\"X\n\x1aGenerateKeypairResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\x12\x15\n\rerror_message\x18\x03 \x01(\t\"X\n\x1aGenerateKeypairResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x12\n\npublic_key\x18\x02 \x01(\t\x12\x15\n\rerror_message\x18\x03 \x01(\tb\x06proto3'
 )
 
 
@@ -125,6 +125,13 @@ _SIGNRESPONSERAW = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='error_message', full_name='bls_proto.SignResponseRaw.error_message', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -138,7 +145,7 @@ _SIGNRESPONSERAW = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=140,
-  serialized_end=193,
+  serialized_end=216,
 )
 
 
@@ -164,6 +171,13 @@ _SIGNRESPONSEHEX = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='error_message', full_name='bls_proto.SignResponseHex.error_message', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -176,8 +190,8 @@ _SIGNRESPONSEHEX = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=195,
-  serialized_end=248,
+  serialized_start=218,
+  serialized_end=294,
 )
 
 
@@ -215,8 +229,8 @@ _VERIFYREQUESTRAW = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=250,
-  serialized_end=305,
+  serialized_start=296,
+  serialized_end=351,
 )
 
 
@@ -242,6 +256,13 @@ _VERIFYREQUESTHEX = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='error_message', full_name='bls_proto.VerifyRequestHex.error_message', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -254,8 +275,8 @@ _VERIFYREQUESTHEX = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=307,
-  serialized_end=362,
+  serialized_start=353,
+  serialized_end=431,
 )
 
 
@@ -281,6 +302,13 @@ _VERIFYRESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='error_message', full_name='bls_proto.VerifyResponse.error_message', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -293,8 +321,8 @@ _VERIFYRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=364,
-  serialized_end=418,
+  serialized_start=433,
+  serialized_end=510,
 )
 
 
@@ -325,8 +353,8 @@ _AGGREGATEREQUESTRAW = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=420,
-  serialized_end=461,
+  serialized_start=512,
+  serialized_end=553,
 )
 
 
@@ -357,8 +385,8 @@ _AGGREGATEREQUESTHEX = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=463,
-  serialized_end=504,
+  serialized_start=555,
+  serialized_end=596,
 )
 
 
@@ -384,6 +412,13 @@ _AGGREGATERESPONSERAW = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='error_message', full_name='bls_proto.AggregateResponseRaw.error_message', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -396,8 +431,8 @@ _AGGREGATERESPONSERAW = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=506,
-  serialized_end=564,
+  serialized_start=598,
+  serialized_end=679,
 )
 
 
@@ -435,8 +470,8 @@ _AGGREGATERESPONSEHEX = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=566,
-  serialized_end=624,
+  serialized_start=681,
+  serialized_end=739,
 )
 
 
@@ -474,8 +509,8 @@ _VERIFYAGGREGATEREQUESTRAW = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=626,
-  serialized_end=731,
+  serialized_start=741,
+  serialized_end=846,
 )
 
 
@@ -513,8 +548,8 @@ _VERIFYAGGREGATEREQUESTHEX = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=733,
-  serialized_end=838,
+  serialized_start=848,
+  serialized_end=953,
 )
 
 
@@ -540,6 +575,13 @@ _VERIFYAGGREGATERESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='error_message', full_name='bls_proto.VerifyAggregateResponse.error_message', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -552,8 +594,8 @@ _VERIFYAGGREGATERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=840,
-  serialized_end=903,
+  serialized_start=955,
+  serialized_end=1041,
 )
 
 
@@ -584,8 +626,8 @@ _GENERATEKEYPAIRREQUESTRAW = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=905,
-  serialized_end=946,
+  serialized_start=1043,
+  serialized_end=1084,
 )
 
 
@@ -616,8 +658,8 @@ _GENERATEKEYPAIRREQUESTHEX = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=948,
-  serialized_end=989,
+  serialized_start=1086,
+  serialized_end=1127,
 )
 
 
@@ -644,9 +686,9 @@ _GENERATEKEYPAIRRESPONSERAW = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='private_key', full_name='bls_proto.GenerateKeypairResponseRaw.private_key', index=2,
-      number=3, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"",
+      name='error_message', full_name='bls_proto.GenerateKeypairResponseRaw.error_message', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -662,8 +704,8 @@ _GENERATEKEYPAIRRESPONSERAW = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=991,
-  serialized_end=1077,
+  serialized_start=1129,
+  serialized_end=1217,
 )
 
 
@@ -690,7 +732,7 @@ _GENERATEKEYPAIRRESPONSEHEX = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='private_key', full_name='bls_proto.GenerateKeypairResponseHex.private_key', index=2,
+      name='error_message', full_name='bls_proto.GenerateKeypairResponseHex.error_message', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -708,8 +750,8 @@ _GENERATEKEYPAIRRESPONSEHEX = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1079,
-  serialized_end=1165,
+  serialized_start=1219,
+  serialized_end=1307,
 )
 
 _VERIFYAGGREGATEREQUESTRAW.fields_by_name['input_data'].message_type = _VERIFYREQUESTRAW
