@@ -52,6 +52,7 @@ def generate_keypair(env: dict, key_id: str, seed: bytes, keep_raw=True):
 
 def sign_data(env: dict, key_id: str, message, raw = True):
     key = env['keystore_backend'].get(key_id)
+
     key = bytes.fromhex(key[2:]) if key.startswith("0x") else bytes.fromhex(key)
 
     if not raw:
