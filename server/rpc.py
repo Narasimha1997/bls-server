@@ -74,6 +74,40 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 error_message=str(e)
             )
     
+    def VerifyRaw(self, request, context):
+        try:
+
+            verify_result = functions.verify_signature(request.public_key, request.message, request.signature, True)
+            return types_pb2.VerifyResponse(
+                success=True,
+                is_verified=verify_result,
+                error_message=''
+            )
+
+        except Exception as e:
+            return types_pb2.VerifyResponse(
+                success=False,
+                is_verified=False,
+                error_message=str(e)
+            )
+    
+    def VerifyHex(self, request, context):
+        try:
+
+            verify_result = functions.verify_signature(request.public_key, request.message, request.signature, False)
+            return types_pb2.VerifyResponse(
+                success=True,
+                is_verified=verify_result,
+                error_message=''
+            )
+
+        except Exception as e:
+            return types_pb2.VerifyResponse(
+                success=False,
+                is_verified=False,
+                error_message=str(e)
+            )
+    
 
 def run_server():
     port = env['port']

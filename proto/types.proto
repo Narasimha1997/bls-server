@@ -25,13 +25,14 @@ message SignResponseHex {
 
 message VerifyRequestRaw {
     bytes public_key = 1;
-    bytes message = 2; 
+    bytes message = 2;
+    bytes signature = 3;
 }
 
 message VerifyRequestHex {
     string public_key = 1;
     string message = 2;
-    string error_message = 3;
+    string signature = 3;
 }
 
 message VerifyResponse {

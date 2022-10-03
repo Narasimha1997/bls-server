@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0btypes.proto\x12\tbls_proto\"7\n\x0eSignRequestRaw\x12\x14\n\x0ckey_identity\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"7\n\x0eSignRequestHex\x12\x14\n\x0ckey_identity\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\"L\n\x0fSignResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\x0c\x12\x15\n\rerror_message\x18\x03 \x01(\t\"L\n\x0fSignResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\t\x12\x15\n\rerror_message\x18\x03 \x01(\t\"7\n\x10VerifyRequestRaw\x12\x12\n\npublic_key\x18\x01 \x01(\x0c\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"N\n\x10VerifyRequestHex\x12\x12\n\npublic_key\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x15\n\rerror_message\x18\x03 \x01(\t\"M\n\x0eVerifyResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x13\n\x0bis_verified\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\")\n\x13\x41ggregateRequestRaw\x12\x12\n\nsignatures\x18\x01 \x03(\x0c\")\n\x13\x41ggregateRequestHex\x12\x12\n\nsignatures\x18\x02 \x03(\t\"Q\n\x14\x41ggregateResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\x0c\x12\x15\n\rerror_message\x18\x03 \x01(\t\":\n\x14\x41ggregateResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\t\"i\n\x19VerifyAggregateRequestRaw\x12/\n\ninput_data\x18\x01 \x03(\x0b\x32\x1b.bls_proto.VerifyRequestRaw\x12\x1b\n\x13\x61ggregate_signature\x18\x02 \x01(\x0c\"i\n\x19VerifyAggregateRequestHex\x12/\n\ninput_data\x18\x01 \x03(\x0b\x32\x1b.bls_proto.VerifyRequestHex\x12\x1b\n\x13\x61ggregate_signature\x18\x02 \x01(\x0c\"V\n\x17VerifyAggregateResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x13\n\x0bis_verified\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\"9\n\x19GenerateKeypairRequestRaw\x12\x0c\n\x04seed\x18\x01 \x01(\x0c\x12\x0e\n\x06key_id\x18\x02 \x01(\t\"9\n\x19GenerateKeypairRequestHex\x12\x0c\n\x04seed\x18\x01 \x01(\x0c\x12\x0e\n\x06key_id\x18\x02 \x01(\t\"X\n\x1aGenerateKeypairResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\x12\x15\n\rerror_message\x18\x03 \x01(\t\"X\n\x1aGenerateKeypairResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x12\n\npublic_key\x18\x02 \x01(\t\x12\x15\n\rerror_message\x18\x03 \x01(\tb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0btypes.proto\x12\tbls_proto\"7\n\x0eSignRequestRaw\x12\x14\n\x0ckey_identity\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"7\n\x0eSignRequestHex\x12\x14\n\x0ckey_identity\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\"L\n\x0fSignResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\x0c\x12\x15\n\rerror_message\x18\x03 \x01(\t\"L\n\x0fSignResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\t\x12\x15\n\rerror_message\x18\x03 \x01(\t\"J\n\x10VerifyRequestRaw\x12\x12\n\npublic_key\x18\x01 \x01(\x0c\x12\x0f\n\x07message\x18\x02 \x01(\x0c\x12\x11\n\tsignature\x18\x03 \x01(\x0c\"J\n\x10VerifyRequestHex\x12\x12\n\npublic_key\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x11\n\tsignature\x18\x03 \x01(\t\"M\n\x0eVerifyResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x13\n\x0bis_verified\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\")\n\x13\x41ggregateRequestRaw\x12\x12\n\nsignatures\x18\x01 \x03(\x0c\")\n\x13\x41ggregateRequestHex\x12\x12\n\nsignatures\x18\x02 \x03(\t\"Q\n\x14\x41ggregateResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\x0c\x12\x15\n\rerror_message\x18\x03 \x01(\t\":\n\x14\x41ggregateResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\tsignature\x18\x02 \x01(\t\"i\n\x19VerifyAggregateRequestRaw\x12/\n\ninput_data\x18\x01 \x03(\x0b\x32\x1b.bls_proto.VerifyRequestRaw\x12\x1b\n\x13\x61ggregate_signature\x18\x02 \x01(\x0c\"i\n\x19VerifyAggregateRequestHex\x12/\n\ninput_data\x18\x01 \x03(\x0b\x32\x1b.bls_proto.VerifyRequestHex\x12\x1b\n\x13\x61ggregate_signature\x18\x02 \x01(\x0c\"V\n\x17VerifyAggregateResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x13\n\x0bis_verified\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\"9\n\x19GenerateKeypairRequestRaw\x12\x0c\n\x04seed\x18\x01 \x01(\x0c\x12\x0e\n\x06key_id\x18\x02 \x01(\t\"9\n\x19GenerateKeypairRequestHex\x12\x0c\n\x04seed\x18\x01 \x01(\x0c\x12\x0e\n\x06key_id\x18\x02 \x01(\t\"X\n\x1aGenerateKeypairResponseRaw\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\x12\x15\n\rerror_message\x18\x03 \x01(\t\"X\n\x1aGenerateKeypairResponseHex\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x12\n\npublic_key\x18\x02 \x01(\t\x12\x15\n\rerror_message\x18\x03 \x01(\tb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'types_pb2', globals())
@@ -29,31 +29,31 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _SIGNRESPONSEHEX._serialized_start=218
   _SIGNRESPONSEHEX._serialized_end=294
   _VERIFYREQUESTRAW._serialized_start=296
-  _VERIFYREQUESTRAW._serialized_end=351
-  _VERIFYREQUESTHEX._serialized_start=353
-  _VERIFYREQUESTHEX._serialized_end=431
-  _VERIFYRESPONSE._serialized_start=433
-  _VERIFYRESPONSE._serialized_end=510
-  _AGGREGATEREQUESTRAW._serialized_start=512
-  _AGGREGATEREQUESTRAW._serialized_end=553
-  _AGGREGATEREQUESTHEX._serialized_start=555
-  _AGGREGATEREQUESTHEX._serialized_end=596
-  _AGGREGATERESPONSERAW._serialized_start=598
-  _AGGREGATERESPONSERAW._serialized_end=679
-  _AGGREGATERESPONSEHEX._serialized_start=681
-  _AGGREGATERESPONSEHEX._serialized_end=739
-  _VERIFYAGGREGATEREQUESTRAW._serialized_start=741
-  _VERIFYAGGREGATEREQUESTRAW._serialized_end=846
-  _VERIFYAGGREGATEREQUESTHEX._serialized_start=848
-  _VERIFYAGGREGATEREQUESTHEX._serialized_end=953
-  _VERIFYAGGREGATERESPONSE._serialized_start=955
-  _VERIFYAGGREGATERESPONSE._serialized_end=1041
-  _GENERATEKEYPAIRREQUESTRAW._serialized_start=1043
-  _GENERATEKEYPAIRREQUESTRAW._serialized_end=1100
-  _GENERATEKEYPAIRREQUESTHEX._serialized_start=1102
-  _GENERATEKEYPAIRREQUESTHEX._serialized_end=1159
-  _GENERATEKEYPAIRRESPONSERAW._serialized_start=1161
-  _GENERATEKEYPAIRRESPONSERAW._serialized_end=1249
-  _GENERATEKEYPAIRRESPONSEHEX._serialized_start=1251
-  _GENERATEKEYPAIRRESPONSEHEX._serialized_end=1339
+  _VERIFYREQUESTRAW._serialized_end=370
+  _VERIFYREQUESTHEX._serialized_start=372
+  _VERIFYREQUESTHEX._serialized_end=446
+  _VERIFYRESPONSE._serialized_start=448
+  _VERIFYRESPONSE._serialized_end=525
+  _AGGREGATEREQUESTRAW._serialized_start=527
+  _AGGREGATEREQUESTRAW._serialized_end=568
+  _AGGREGATEREQUESTHEX._serialized_start=570
+  _AGGREGATEREQUESTHEX._serialized_end=611
+  _AGGREGATERESPONSERAW._serialized_start=613
+  _AGGREGATERESPONSERAW._serialized_end=694
+  _AGGREGATERESPONSEHEX._serialized_start=696
+  _AGGREGATERESPONSEHEX._serialized_end=754
+  _VERIFYAGGREGATEREQUESTRAW._serialized_start=756
+  _VERIFYAGGREGATEREQUESTRAW._serialized_end=861
+  _VERIFYAGGREGATEREQUESTHEX._serialized_start=863
+  _VERIFYAGGREGATEREQUESTHEX._serialized_end=968
+  _VERIFYAGGREGATERESPONSE._serialized_start=970
+  _VERIFYAGGREGATERESPONSE._serialized_end=1056
+  _GENERATEKEYPAIRREQUESTRAW._serialized_start=1058
+  _GENERATEKEYPAIRREQUESTRAW._serialized_end=1115
+  _GENERATEKEYPAIRREQUESTHEX._serialized_start=1117
+  _GENERATEKEYPAIRREQUESTHEX._serialized_end=1174
+  _GENERATEKEYPAIRRESPONSERAW._serialized_start=1176
+  _GENERATEKEYPAIRRESPONSERAW._serialized_end=1264
+  _GENERATEKEYPAIRRESPONSEHEX._serialized_start=1266
+  _GENERATEKEYPAIRRESPONSEHEX._serialized_end=1354
 # @@protoc_insertion_point(module_scope)
