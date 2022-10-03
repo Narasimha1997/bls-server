@@ -40,6 +40,39 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 error_message=str(e)
             )
 
+    def SignRaw(self, request, context):
+        try:
+
+            signature = functions.sign_data(env, request.key_identity, request.message, True)
+            return types_pb2.SignResponseRaw(
+                success=True,
+                signature=signature,
+                error_message=''
+            )
+
+        except Exception as e:
+            return types_pb2.SignResponseRaw(
+                success=False,
+                signature=b'',
+                error_message=str(e)
+            )
+
+
+    def SignHex(self, request, context):
+        try:
+            signature = functions.sign_data(env, request.key_identity, request.message, False)
+            return types_pb2.SignResponseHex(
+                success=True,
+                signature=signature,
+                error_message=''
+            )
+
+        except Exception as e:
+            return types_pb2.SignResponseHex(
+                success=False,
+                signature='',
+                error_message=str(e)
+            )
     
 
 def run_server():

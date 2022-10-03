@@ -52,6 +52,7 @@ def generate_keypair(env: dict, key_id: str, seed: bytes, keep_raw=True):
 
 def sign_data(env: dict, key_id: str, message, raw = True):
     key = env['keystore_backend'].get(key_id)
+
     key = bytes.fromhex(key[2:]) if key.startswith("0x") else bytes.fromhex(key)
 
     if not raw:
@@ -63,3 +64,15 @@ def sign_data(env: dict, key_id: str, message, raw = True):
     if raw:
         return bytes(signature)
     return bytes(signature).hex()
+
+def verify_signature(pk, message, signature, raw=True):
+
+    if not raw:
+        pk = bytes.fromhex(pk[2:]) if pk.startswith("0x") else bytes.fromhex(pk)
+        message = bytes.fromhex(message[2:]) if message.startswith("0x") else bytes.fromhex(message)
+        signature = bytes.fromhex(signature[2:]) if signature.startswith("0x") else bytes.fromhex(signature)
+    
+    # verify
+    pk = G1Element.from_bytes(pk)
+    signature = G2Element.from_bytes(signature)
+    return AugSchemeMPL.verify(pk, message, signature)
