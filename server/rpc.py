@@ -40,6 +40,8 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 error_message=str(e)
             )
 
+    
+
 def run_server():
     port = env['port']
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

@@ -8,7 +8,7 @@ message SignRequestRaw {
 
 message SignRequestHex {
     string key_identity = 1;
-    bytes message = 2;
+    string message = 2;
 }
 
 message SignResponseRaw {

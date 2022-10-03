@@ -50,3 +50,16 @@ def generate_keypair(env: dict, key_id: str, seed: bytes, keep_raw=True):
         return pubk_b
     return pubk_b.hex()
 
+def sign_data(env: dict, key_id: str, message, raw = True):
+    key = env['keystore_backend'].get(key_id)
+    key = bytes.fromhex(key[2:]) if key.startswith("0x") else bytes.fromhex(key)
+
+    if not raw:
+        message = bytes.fromhex(message[2:]) if message.startswith("0x") else bytes.fromhex(message)
+    
+    # sign
+    sk = PrivateKey.from_bytes(key)
+    signature = AugSchemeMPL.sign(sk, message)
+    if raw:
+        return bytes(signature)
+    return bytes(signature).hex()
