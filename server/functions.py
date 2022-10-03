@@ -32,24 +32,19 @@ def prepare_env() -> dict:
     env_vars['keystore_backend'] = backends.FileStorageBackend(**params)
     
     # seed -  this is used for generating new private keys
-    seed = os.getenv("KEYGEN_SEED_HEX", urandom_bytes())
-    if type(seed) == str:
-        seed = seed[2:] if seed.startswith("0x") else seed
-        seed = bytes.fromhex(seed)
-
-    env_vars['seed'] = seed
+    env_vars['seeder'] = urandom_bytes
     
     return env_vars
 
 
-def generate_keypair(env: dict, key_id: str, keep_raw=True):
-    seed = env['seed']
+def generate_keypair(env: dict, key_id: str, seed: bytes, keep_raw=True):
+    seed = env['seeder']() if len(seed) == 0 else seed
     private_key = AugSchemeMPL.key_gen(seed)
     public_key = private_key.get_g1()
     prvk_b, pubk_b = bytes(private_key), bytes(public_key)
 
     # register the newly generated key
-    env['key_store'].put(key_id, prvk_b.hex())
+    env['keystore_backend'].put(key_id, prvk_b.hex())
 
     if keep_raw:
         return pubk_b

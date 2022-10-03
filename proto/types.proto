@@ -77,10 +77,12 @@ message VerifyAggregateResponse {
 
 message GenerateKeypairRequestRaw {
     bytes seed = 1;
+    string key_id = 2;
 }
 
 message GenerateKeypairRequestHex {
     bytes seed = 1;
+    string key_id = 2;
 }
 
 message GenerateKeypairResponseRaw {
