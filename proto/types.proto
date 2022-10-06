@@ -61,13 +61,15 @@ message AggregateResponseHex {
 }
 
 message VerifyAggregateRequestRaw {
-    repeated VerifyRequestRaw input_data = 1;
-    bytes aggregate_signature = 2;
+    repeated bytes public_keys = 1;
+    repeated bytes messages = 2; 
+    bytes aggregate_signature = 3;
 }
 
 message VerifyAggregateRequestHex {
-    repeated VerifyRequestHex input_data = 1;
-    bytes aggregate_signature = 2;
+    repeated string public_keys = 1;
+    repeated string messages = 2; 
+    bytes aggregate_signature = 3;
 }
 
 message VerifyAggregateResponse {
