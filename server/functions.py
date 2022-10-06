@@ -9,8 +9,10 @@ from blspy import (
 
 import backends
 
+
 def urandom_bytes() -> bytes:
     return os.urandom(128)
+
 
 def prepare_env() -> dict:
 
@@ -25,15 +27,16 @@ def prepare_env() -> dict:
         for key in all_keys:
             splits = key.split("=")
             if len(splits) != 2:
-                raise Exception("malformed parameters string, it should be of the form key_name1=value::key_name2=value::key_name3=vakue...")
+                raise Exception(
+                    "malformed parameters string, it should be of the form key_name1=value::key_name2=value::key_name3=vakue...")
             name, key = splits
             params[name] = key
-    
+
     env_vars['keystore_backend'] = backends.FileStorageBackend(**params)
-    
+
     # seed -  this is used for generating new private keys
     env_vars['seeder'] = urandom_bytes
-    
+
     return env_vars
 
 
@@ -50,14 +53,17 @@ def generate_keypair(env: dict, key_id: str, seed: bytes, keep_raw=True):
         return pubk_b
     return pubk_b.hex()
 
-def sign_data(env: dict, key_id: str, message, raw = True):
+
+def sign_data(env: dict, key_id: str, message, raw=True):
     key = env['keystore_backend'].get(key_id)
 
-    key = bytes.fromhex(key[2:]) if key.startswith("0x") else bytes.fromhex(key)
+    key = bytes.fromhex(key[2:]) if key.startswith(
+        "0x") else bytes.fromhex(key)
 
     if not raw:
-        message = bytes.fromhex(message[2:]) if message.startswith("0x") else bytes.fromhex(message)
-    
+        message = bytes.fromhex(message[2:]) if message.startswith(
+            "0x") else bytes.fromhex(message)
+
     # sign
     sk = PrivateKey.from_bytes(key)
     signature = AugSchemeMPL.sign(sk, message)
@@ -65,13 +71,17 @@ def sign_data(env: dict, key_id: str, message, raw = True):
         return bytes(signature)
     return bytes(signature).hex()
 
+
 def verify_signature(pk, message, signature, raw=True):
 
     if not raw:
-        pk = bytes.fromhex(pk[2:]) if pk.startswith("0x") else bytes.fromhex(pk)
-        message = bytes.fromhex(message[2:]) if message.startswith("0x") else bytes.fromhex(message)
-        signature = bytes.fromhex(signature[2:]) if signature.startswith("0x") else bytes.fromhex(signature)
-    
+        pk = bytes.fromhex(pk[2:]) if pk.startswith(
+            "0x") else bytes.fromhex(pk)
+        message = bytes.fromhex(message[2:]) if message.startswith(
+            "0x") else bytes.fromhex(message)
+        signature = bytes.fromhex(signature[2:]) if signature.startswith(
+            "0x") else bytes.fromhex(signature)
+
     # verify
     pk = G1Element.from_bytes(pk)
     signature = G2Element.from_bytes(signature)
@@ -84,12 +94,41 @@ def aggregate_signatures(signatures, raw=True):
         bytes_signatures = []
         for signature in signatures:
             bytes_signatures.append(
-                bytes.fromhex(signature[2:]) if signature.startswith("0x") else bytes.fromhex(signature)
+                bytes.fromhex(signature[2:]) if signature.startswith(
+                    "0x") else bytes.fromhex(signature)
             )
         signatures = bytes_signatures
-    
+
     # generate aggregate signature
     aggregate_signature = AugSchemeMPL.aggregate(signatures)
     if raw:
         return aggregate_signature
     return bytes(aggregate_signature).hex()
+
+
+def aggregate_verify(pks, messages, agg_signature, raw=True):
+
+    if not raw:
+        bytes_pks = []
+        bytes_messages = []
+
+        for pk in pks:
+            bytes_pks.append(
+                bytes.fromhex(pk[2:]) if pk.startswith(
+                    "0x") else bytes.fromhex(pk)
+            )
+
+        pks = bytes_pks
+
+        for message in messages:
+            bytes_messages.append(
+                bytes.fromhex(message[2:]) if message.startswith(
+                    "0x") else bytes.fromhex(message)
+            )
+        messages = bytes_messages
+        agg_signature = bytes.fromhex(agg_signature[2:]) if agg_signature.startswith(
+            "0x") else bytes.fromhex(agg_signature)
+
+    # verify
+    verified = AugSchemeMPL.aggregate_verify(pks, messages, agg_signature)
+    return verified

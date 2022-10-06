@@ -3,17 +3,19 @@ import grpc
 from concurrent import futures
 import time
 
-import services_pb2_grpc 
+import services_pb2_grpc
 import types_pb2
 import functions
 
 env = functions.prepare_env()
 
+
 class BLSServicer(services_pb2_grpc.BLSSigningServicer):
-    
+
     def GenerateKeypairRaw(self, request, context):
         try:
-            public_key = functions.generate_keypair(env, request.key_id, request.seed, True)
+            public_key = functions.generate_keypair(
+                env, request.key_id, request.seed, True)
             return types_pb2.GenerateKeypairResponseRaw(
                 success=True,
                 public_key=public_key,
@@ -25,10 +27,11 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 public_key=b'',
                 error_message=str(e)
             )
-    
+
     def GenerateKeypairHex(self, request, context):
         try:
-            public_key = functions.generate_keypair(env, request.key_id, request.seed, False)
+            public_key = functions.generate_keypair(
+                env, request.key_id, request.seed, False)
             return types_pb2.GenerateKeypairResponseHex(
                 success=True,
                 public_key=public_key,
@@ -44,7 +47,8 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
     def SignRaw(self, request, context):
         try:
 
-            signature = functions.sign_data(env, request.key_identity, request.message, True)
+            signature = functions.sign_data(
+                env, request.key_identity, request.message, True)
             return types_pb2.SignResponseRaw(
                 success=True,
                 signature=signature,
@@ -58,10 +62,10 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 error_message=str(e)
             )
 
-
     def SignHex(self, request, context):
         try:
-            signature = functions.sign_data(env, request.key_identity, request.message, False)
+            signature = functions.sign_data(
+                env, request.key_identity, request.message, False)
             return types_pb2.SignResponseHex(
                 success=True,
                 signature=signature,
@@ -74,11 +78,12 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 signature='',
                 error_message=str(e)
             )
-    
+
     def VerifyRaw(self, request, context):
         try:
 
-            verify_result = functions.verify_signature(request.public_key, request.message, request.signature, True)
+            verify_result = functions.verify_signature(
+                request.public_key, request.message, request.signature, True)
             return types_pb2.VerifyResponse(
                 success=True,
                 is_verified=verify_result,
@@ -91,11 +96,12 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 is_verified=False,
                 error_message=str(e)
             )
-    
+
     def VerifyHex(self, request, context):
         try:
 
-            verify_result = functions.verify_signature(request.public_key, request.message, request.signature, False)
+            verify_result = functions.verify_signature(
+                request.public_key, request.message, request.signature, False)
             return types_pb2.VerifyResponse(
                 success=True,
                 is_verified=verify_result,
@@ -108,11 +114,12 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 is_verified=False,
                 error_message=str(e)
             )
-    
+
     def AggregateRaw(self, request, context):
         try:
 
-            aggregate_signature = functions.aggregate_signatures(request.signatures)
+            aggregate_signature = functions.aggregate_signatures(
+                request.signatures)
             return types_pb2.AggregateResponseRaw(
                 success=True,
                 signature=aggregate_signature,
@@ -125,11 +132,12 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 signature=b'',
                 error_message=str(e)
             )
-    
+
     def AggregateHex(self, request, context):
         try:
 
-            aggregate_signature = functions.aggregate_signatures(request.signatures, False)
+            aggregate_signature = functions.aggregate_signatures(
+                request.signatures, False)
             return types_pb2.AggregateResponseHex(
                 success=True,
                 signature=aggregate_signature,
@@ -155,6 +163,7 @@ def run_server():
 
     while True:
         time.sleep(24 * 60 * 60)
+
 
 if __name__ == "__main__":
     run_server()
