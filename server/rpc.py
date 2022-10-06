@@ -1,3 +1,4 @@
+from inspect import signature
 import grpc
 from concurrent import futures
 import time
@@ -108,6 +109,40 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 error_message=str(e)
             )
     
+    def AggregateRaw(self, request, context):
+        try:
+
+            aggregate_signature = functions.aggregate_signatures(request.signatures)
+            return types_pb2.AggregateResponseRaw(
+                success=True,
+                signature=aggregate_signature,
+                error_message=''
+            )
+
+        except Exception as e:
+            return types_pb2.AggregateResponseRaw(
+                success=False,
+                signature=b'',
+                error_message=str(e)
+            )
+    
+    def AggregateHex(self, request, context):
+        try:
+
+            aggregate_signature = functions.aggregate_signatures(request.signatures, False)
+            return types_pb2.AggregateResponseHex(
+                success=True,
+                signature=aggregate_signature,
+                error_message=''
+            )
+
+        except Exception as e:
+            return types_pb2.AggregateResponseRaw(
+                success=False,
+                signature='',
+                error_message=str(e)
+            )
+
 
 def run_server():
     port = env['port']

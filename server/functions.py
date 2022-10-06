@@ -76,3 +76,20 @@ def verify_signature(pk, message, signature, raw=True):
     pk = G1Element.from_bytes(pk)
     signature = G2Element.from_bytes(signature)
     return AugSchemeMPL.verify(pk, message, signature)
+
+
+def aggregate_signatures(signatures, raw=True):
+
+    if not raw:
+        bytes_signatures = []
+        for signature in signatures:
+            bytes_signatures.append(
+                bytes.fromhex(signature[2:]) if signature.startswith("0x") else bytes.fromhex(signature)
+            )
+        signatures = bytes_signatures
+    
+    # generate aggregate signature
+    aggregate_signature = AugSchemeMPL.aggregate(signatures)
+    if raw:
+        return aggregate_signature
+    return bytes(aggregate_signature).hex()
