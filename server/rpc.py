@@ -151,6 +151,42 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
                 error_message=str(e)
             )
 
+    def VerifyAggregatedRaw(self, request, context):
+        try:
+
+            verified = functions.aggregate_verify(
+                request.public_keys, request.messages, request.aggregate_signature)
+            return types_pb2.VerifyAggregateResponse(
+                success=True,
+                is_verified=verified,
+                error_message=''
+            )
+
+        except Exception as e:
+            return types_pb2.VerifyAggregateResponse(
+                success=False,
+                is_verified=False,
+                error_message=str(e)
+            )
+
+    def VerifyAggregatedHex(self, request, context):
+        try:
+
+            verified = functions.aggregate_verify(
+                request.public_keys, request.messages, request.aggregate_signature, False)
+            return types_pb2.VerifyAggregateResponse(
+                success=True,
+                is_verified=verified,
+                error_message=''
+            )
+
+        except Exception as e:
+            return types_pb2.VerifyAggregateResponse(
+                success=False,
+                is_verified=False,
+                error_message=str(e)
+            )
+
 
 def run_server():
     port = env['port']
