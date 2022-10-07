@@ -50,8 +50,7 @@ def generate_keypair(env: dict, key_id: str, seed: bytes, keep_raw=True):
     try:
         env['keystore_backend'].put(key_id, prvk_b.hex())
     except Exception as e:
-        print(e)
-        if e.key:
+        if hasattr(e, "key"):
             key = e.key
             key = bytes.fromhex(key[2:]) if key.startswith(
                 "0x") else bytes.fromhex(key)
@@ -63,6 +62,7 @@ def generate_keypair(env: dict, key_id: str, seed: bytes, keep_raw=True):
 
     if keep_raw:
         return pubk_b
+    
     return pubk_b.hex()
 
 

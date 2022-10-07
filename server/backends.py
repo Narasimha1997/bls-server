@@ -36,7 +36,7 @@ class FileStorageBackend(PrivateKeyBackend):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.file_path = kwargs.get('file_path', '/keys.json')
+        self.file_path = kwargs.get('file_path', '/tmp/keys.json')
 
     def put(self, key_id: str, key: str) -> str:
         try:
