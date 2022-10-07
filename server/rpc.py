@@ -1,7 +1,5 @@
-from inspect import signature
 import grpc
 from concurrent import futures
-import time
 
 import services_pb2_grpc
 import types_pb2
@@ -145,7 +143,7 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
             )
 
         except Exception as e:
-            return types_pb2.AggregateResponseRaw(
+            return types_pb2.AggregateResponseHex(
                 success=False,
                 signature='',
                 error_message=str(e)
@@ -188,18 +186,8 @@ class BLSServicer(services_pb2_grpc.BLSSigningServicer):
             )
 
 
-def run_server():
-    port = env['port']
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+def init_rpc_server(port=8000, max_workers=10):
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
     services_pb2_grpc.add_BLSSigningServicer_to_server(BLSServicer(), server)
     server.add_insecure_port('0.0.0.0:{}'.format(port))
-    server.start()
-
-    print('started gRPC server at 0.0.0.0:{}'.format(port))
-
-    while True:
-        time.sleep(24 * 60 * 60)
-
-
-if __name__ == "__main__":
-    run_server()
+    return server

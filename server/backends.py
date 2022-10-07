@@ -5,6 +5,7 @@ class PrivateKeyBackendPutException(Exception):
     def __init__(self, *args: object) -> None:
         super().__init__(*args)
         self.cause = self.args[0]
+        self.key = self.args[1]
 
     def __str__(self) -> str:
         return "put_error={}".format(self.cause)
@@ -37,19 +38,19 @@ class FileStorageBackend(PrivateKeyBackend):
         super().__init__(**kwargs)
         self.file_path = kwargs.get('file_path', '/keys.json')
 
-    def put(self, key_id: str, key: str) -> None:
+    def put(self, key_id: str, key: str) -> str:
         try:
             data = open(self.file_path)
             dict_repr = json.load(data)
 
             if key_id in dict_repr:
-                raise Exception('key_id={} already found'.format(key_id))
+                raise PrivateKeyBackendPutException('key_id={} already found'.format(key_id), dict_repr[key_id])
 
             dict_repr[key_id] = key
             json.dump(dict_repr, open(self.file_path, 'w'))
 
         except Exception as e:
-            raise PrivateKeyBackendPutException(str(e))
+            raise PrivateKeyBackendPutException(str(e), e.key)
 
     def get(self, key_id: str) -> str:
         try:
