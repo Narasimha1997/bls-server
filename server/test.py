@@ -1,3 +1,5 @@
+from email import message
+from urllib import response
 import rpc
 import types_pb2
 import grpc
@@ -74,3 +76,43 @@ def test_keypairs_generation():
 
     run_in_server_context(test_function)
 
+def test_signing_and_verification():
+
+    def test_function(channel: grpc.Channel):
+        stub = BLSSigningStub(channel)
+        raw_message = messages[0]
+        hex_message = messages_hex[0]
+
+        # 1
+        # sign bytes message 
+        # sign the message by identifying a pre-registered private key (in test_keypairs_generation)
+        response_raw = stub.SignRaw(types_pb2.SignRequestRaw(key_identity="test-key", message=raw_message))
+        assert response_raw.success, "failed to sign message {}".format(response_raw.error_message)
+
+        # 2
+        # sign hex message
+        # sign the message by identifying a pre-registered private key (in test_keypairs_generation)
+        response_hex = stub.SignHex(types_pb2.SignRequestHex(key_identity="test-key", message=hex_message))
+        assert response_hex.success, "failed to sign message {}".format(response_raw.error_message)
+
+        # 3
+        # compare the signatures, the hex representation should be same
+        assert bytes.fromhex(response_hex.signature) == response_raw.signature
+
+        # 4
+        # verify the hex signature
+        # get the public key
+        response = stub.GenerateKeypairHex(types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key"))
+        verification_response = stub.VerifyHex(types_pb2.VerifyRequestHex(signature=response_hex.signature, message=hex_message, public_key=response.public_key))
+        assert verification_response.success and verification_response.is_verified, "failed to verify signature"
+
+        # 5
+        # modify the message and signature verification should fail
+        hex_message = hex_message + "012a"
+        verification_response = stub.VerifyHex(types_pb2.VerifyRequestHex(signature=response_hex.signature, message=hex_message, public_key=response.public_key))
+        assert verification_response.success and not verification_response.is_verified
+    
+    run_in_server_context(test_function)
+
+test_keypairs_generation()
+test_signing_and_verification()
