@@ -58,6 +58,7 @@ message AggregateResponseRaw {
 message AggregateResponseHex {
     bool success = 1;
     string signature = 2;
+    string error_message = 3;
 }
 
 message VerifyAggregateRequestRaw {
@@ -69,7 +70,7 @@ message VerifyAggregateRequestRaw {
 message VerifyAggregateRequestHex {
     repeated string public_keys = 1;
     repeated string messages = 2; 
-    bytes aggregate_signature = 3;
+    string aggregate_signature = 3;
 }
 
 message VerifyAggregateResponse {

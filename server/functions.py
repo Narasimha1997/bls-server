@@ -47,7 +47,19 @@ def generate_keypair(env: dict, key_id: str, seed: bytes, keep_raw=True):
     prvk_b, pubk_b = bytes(private_key), bytes(public_key)
 
     # register the newly generated key
-    env['keystore_backend'].put(key_id, prvk_b.hex())
+    try:
+        env['keystore_backend'].put(key_id, prvk_b.hex())
+    except Exception as e:
+        print(e)
+        if e.key:
+            key = e.key
+            key = bytes.fromhex(key[2:]) if key.startswith(
+                "0x") else bytes.fromhex(key)
+            sk = PrivateKey.from_bytes(key)
+            pk = sk.get_g1()
+            pubk_b = bytes(pk)
+        else:
+            raise e
 
     if keep_raw:
         return pubk_b
@@ -90,17 +102,16 @@ def verify_signature(pk, message, signature, raw=True):
 
 def aggregate_signatures(signatures, raw=True):
 
-    if not raw:
-        bytes_signatures = []
-        for signature in signatures:
-            bytes_signatures.append(
-                bytes.fromhex(signature[2:]) if signature.startswith(
-                    "0x") else bytes.fromhex(signature)
-            )
-        signatures = bytes_signatures
+    g2_signatures = []
+    for signature in signatures:
+        sig = signature
+        if not raw:
+            sig = bytes.fromhex(signature[2:]) if signature.startswith(
+                "0x") else bytes.fromhex(signature)
+        g2_signatures.append(G2Element.from_bytes(sig))
 
     # generate aggregate signature
-    aggregate_signature = AugSchemeMPL.aggregate(signatures)
+    aggregate_signature = AugSchemeMPL.aggregate(g2_signatures)
     if raw:
         return aggregate_signature
     return bytes(aggregate_signature).hex()
@@ -108,27 +119,30 @@ def aggregate_signatures(signatures, raw=True):
 
 def aggregate_verify(pks, messages, agg_signature, raw=True):
 
+    g1_pks = []
+    bytes_messages = []
+
+    for pk in pks:
+        if not raw:
+            pk = bytes.fromhex(pk[2:]) if pk.startswith(
+                "0x") else bytes.fromhex(pk)
+        g1_pks.append(G1Element.from_bytes(pk))
+
     if not raw:
-        bytes_pks = []
         bytes_messages = []
-
-        for pk in pks:
-            bytes_pks.append(
-                bytes.fromhex(pk[2:]) if pk.startswith(
-                    "0x") else bytes.fromhex(pk)
-            )
-
-        pks = bytes_pks
-
         for message in messages:
-            bytes_messages.append(
-                bytes.fromhex(message[2:]) if message.startswith(
-                    "0x") else bytes.fromhex(message)
-            )
+            message = bytes.fromhex(message[2:]) if message.startswith(
+                "0x") else bytes.fromhex(message)
+            bytes_messages.append(message)
         messages = bytes_messages
-        agg_signature = bytes.fromhex(agg_signature[2:]) if agg_signature.startswith(
-            "0x") else bytes.fromhex(agg_signature)
+
+    g2_signature = None
+    if not raw:
+        g2_signature = G2Element.from_bytes(bytes.fromhex(agg_signature[2:]) if agg_signature.startswith(
+            "0x") else bytes.fromhex(agg_signature))
+    else:
+        g2_signature = G2Element.from_bytes(agg_signature)
 
     # verify
-    verified = AugSchemeMPL.aggregate_verify(pks, messages, agg_signature)
+    verified = AugSchemeMPL.aggregate_verify(g1_pks, messages, g2_signature)
     return verified
