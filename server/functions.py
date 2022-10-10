@@ -113,7 +113,7 @@ def aggregate_signatures(signatures, raw=True):
     # generate aggregate signature
     aggregate_signature = AugSchemeMPL.aggregate(g2_signatures)
     if raw:
-        return aggregate_signature
+        return bytes(aggregate_signature)
     return bytes(aggregate_signature).hex()
 
 

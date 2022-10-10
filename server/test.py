@@ -28,8 +28,10 @@ def run_in_server_context(function):
 
     with grpc.insecure_channel('localhost:8000') as channel:
         function(channel)
+    
+    server.stop(2)
 
-
+@pytest.mark.dependency()
 def test_keypairs_generation():
 
     def test_function(channel: grpc.Channel):
@@ -139,29 +141,29 @@ def test_aggregate_signing_verification():
 
         signatures = []
 
-        response_hex = stub.SignHex(types_pb2.SignRequestRaw(
+        response_hex = stub.SignHex(types_pb2.SignRequestHex(
             key_identity="test-key", message=messages_hex[0]))
         assert response_hex.success, "failed to sign message {}".format(
             response_hex.error_message)
 
         signatures.append(response_hex.signature)
 
-        response_hex = stub.SignHex(types_pb2.SignRequestRaw(
+        response_hex = stub.SignHex(types_pb2.SignRequestHex(
             key_identity="test-key", message=messages_hex[1]))
         assert response_hex.success, "failed to sign message {}".format(
             response_hex.error_message)
 
         signatures.append(response_hex.signature)
 
-        response_hex = stub.SignHex(types_pb2.SignRequestRaw(
-            key_identity="test-key-1", message=messages_hex[0]))
+        response_hex = stub.SignHex(types_pb2.SignRequestHex(
+            key_identity="test-key-2", message=messages_hex[0]))
         assert response_hex.success, "failed to sign message {}".format(
             response_hex.error_message)
 
         signatures.append(response_hex.signature)
 
-        response_hex = stub.SignHex(types_pb2.SignRequestRaw(
-            key_identity="test-key-1", message=messages_hex[1]))
+        response_hex = stub.SignHex(types_pb2.SignRequestHex(
+            key_identity="test-key-2", message=messages_hex[1]))
         assert response_hex.success, "failed to sign message {}".format(
             response_hex.error_message)
 
@@ -177,8 +179,8 @@ def test_aggregate_signing_verification():
         # 3
         # generate aggregated signature using raw bytes
         signatures_raw = [bytes.fromhex(signature) for signature in signatures]
-        response_agg_raw = stub.AggregateHex(
-            types_pb2.AggregateRequestHex(signatures=signatures_raw))
+        response_agg_raw = stub.AggregateRaw(
+            types_pb2.AggregateRequestRaw(signatures=signatures_raw))
         assert response_agg_raw.success, "failed to generate aggregated signature {}".format(
             response_agg.error_message)
 
@@ -199,7 +201,7 @@ def test_aggregate_signing_verification():
         public_keys.extend([response_pk.public_key, response_pk.public_key])
 
         response_pk = stub.GenerateKeypairHex(
-            types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key-1"))
+            types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key-2"))
         assert response_pk.success, "failed to obtain public key {}".format(
             response_pk.error_message)
         public_keys.extend([response_pk.public_key, response_pk.public_key])
@@ -215,8 +217,5 @@ def test_aggregate_signing_verification():
 
         assert response.success and response.is_verified, "failed to verify aggregated signature {}".format(
             response.error_message)
-
-
-test_keypairs_generation()
-test_signing_and_verification()
-test_aggregate_signing_verification()
+    
+    run_in_server_context(test_function)
