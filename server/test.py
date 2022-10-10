@@ -6,6 +6,8 @@ import grpc
 import time
 from services_pb2_grpc import BLSSigningStub
 
+import pytest
+
 
 with open('/tmp/keys.json', 'w') as key_store_writer:
     key_store_writer.write("{}")
@@ -80,6 +82,7 @@ def test_keypairs_generation():
     run_in_server_context(test_function)
 
 
+@pytest.mark.dependency(depends=['test_keypairs_generation'])
 def test_signing_and_verification():
 
     def test_function(channel: grpc.Channel):
@@ -126,6 +129,7 @@ def test_signing_and_verification():
     run_in_server_context(test_function)
 
 
+@pytest.mark.dependency(depends=['test_keypairs_generation'])
 def test_aggregate_signing_verification():
 
     def test_function(channel: grpc.Channel):
