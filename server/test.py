@@ -71,11 +71,14 @@ def test_keypairs_generation():
 
         # 5
         # call GenerateKeypairHex to get the hex representation of the public key
-        response = stub.GenerateKeypairHex(types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key"))
+        response = stub.GenerateKeypairHex(
+            types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key"))
         # check if the hex public key is same as the bytes key obtained in step 1
-        assert bytes.fromhex(response.public_key) == public_key, "Invalid hex key {}".format(response.public_key)
+        assert bytes.fromhex(response.public_key) == public_key, "Invalid hex key {}".format(
+            response.public_key)
 
     run_in_server_context(test_function)
+
 
 def test_signing_and_verification():
 
@@ -85,16 +88,20 @@ def test_signing_and_verification():
         hex_message = messages_hex[0]
 
         # 1
-        # sign bytes message 
+        # sign bytes message
         # sign the message by identifying a pre-registered private key (in test_keypairs_generation)
-        response_raw = stub.SignRaw(types_pb2.SignRequestRaw(key_identity="test-key", message=raw_message))
-        assert response_raw.success, "failed to sign message {}".format(response_raw.error_message)
+        response_raw = stub.SignRaw(types_pb2.SignRequestRaw(
+            key_identity="test-key", message=raw_message))
+        assert response_raw.success, "failed to sign message {}".format(
+            response_raw.error_message)
 
         # 2
         # sign hex message
         # sign the message by identifying a pre-registered private key (in test_keypairs_generation)
-        response_hex = stub.SignHex(types_pb2.SignRequestHex(key_identity="test-key", message=hex_message))
-        assert response_hex.success, "failed to sign message {}".format(response_raw.error_message)
+        response_hex = stub.SignHex(types_pb2.SignRequestHex(
+            key_identity="test-key", message=hex_message))
+        assert response_hex.success, "failed to sign message {}".format(
+            response_raw.error_message)
 
         # 3
         # compare the signatures, the hex representation should be same
@@ -103,16 +110,19 @@ def test_signing_and_verification():
         # 4
         # verify the hex signature
         # get the public key
-        response = stub.GenerateKeypairHex(types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key"))
-        verification_response = stub.VerifyHex(types_pb2.VerifyRequestHex(signature=response_hex.signature, message=hex_message, public_key=response.public_key))
+        response = stub.GenerateKeypairHex(
+            types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key"))
+        verification_response = stub.VerifyHex(types_pb2.VerifyRequestHex(
+            signature=response_hex.signature, message=hex_message, public_key=response.public_key))
         assert verification_response.success and verification_response.is_verified, "failed to verify signature"
 
         # 5
         # modify the message and signature verification should fail
         hex_message = hex_message + "012a"
-        verification_response = stub.VerifyHex(types_pb2.VerifyRequestHex(signature=response_hex.signature, message=hex_message, public_key=response.public_key))
+        verification_response = stub.VerifyHex(types_pb2.VerifyRequestHex(
+            signature=response_hex.signature, message=hex_message, public_key=response.public_key))
         assert verification_response.success and not verification_response.is_verified
-    
+
     run_in_server_context(test_function)
 
 
@@ -125,55 +135,73 @@ def test_aggregate_signing_verification():
 
         signatures = []
 
-        response_hex = stub.SignHex(types_pb2.SignRequestRaw(key_identity="test-key", message=messages_hex[0]))
-        assert response_hex.success, "failed to sign message {}".format(response_hex.error_message)
+        response_hex = stub.SignHex(types_pb2.SignRequestRaw(
+            key_identity="test-key", message=messages_hex[0]))
+        assert response_hex.success, "failed to sign message {}".format(
+            response_hex.error_message)
 
         signatures.append(response_hex.signature)
 
-        response_hex = stub.SignHex(types_pb2.SignRequestRaw(key_identity="test-key", message=messages_hex[1]))
-        assert response_hex.success, "failed to sign message {}".format(response_hex.error_message)
+        response_hex = stub.SignHex(types_pb2.SignRequestRaw(
+            key_identity="test-key", message=messages_hex[1]))
+        assert response_hex.success, "failed to sign message {}".format(
+            response_hex.error_message)
 
         signatures.append(response_hex.signature)
 
-        response_hex = stub.SignHex(types_pb2.SignRequestRaw(key_identity="test-key-1", message=messages_hex[0]))
-        assert response_hex.success, "failed to sign message {}".format(response_hex.error_message)
+        response_hex = stub.SignHex(types_pb2.SignRequestRaw(
+            key_identity="test-key-1", message=messages_hex[0]))
+        assert response_hex.success, "failed to sign message {}".format(
+            response_hex.error_message)
 
         signatures.append(response_hex.signature)
 
-        response_hex = stub.SignHex(types_pb2.SignRequestRaw(key_identity="test-key-1", message=messages_hex[1]))
-        assert response_hex.success, "failed to sign message {}".format(response_hex.error_message)
+        response_hex = stub.SignHex(types_pb2.SignRequestRaw(
+            key_identity="test-key-1", message=messages_hex[1]))
+        assert response_hex.success, "failed to sign message {}".format(
+            response_hex.error_message)
 
         signatures.append(response_hex.signature)
 
         # 2
         # generate aggregate signature
-        response_agg = stub.AggregateHex(types_pb2.AggregateRequestHex(signatures=signatures))
-        assert response_agg.success, "failed to generate aggregated signature {}".format(response_agg.error_message)
+        response_agg = stub.AggregateHex(
+            types_pb2.AggregateRequestHex(signatures=signatures))
+        assert response_agg.success, "failed to generate aggregated signature {}".format(
+            response_agg.error_message)
 
         # 3
         # generate aggregated signature using raw bytes
         signatures_raw = [bytes.fromhex(signature) for signature in signatures]
-        response_agg_raw = stub.AggregateHex(types_pb2.AggregateRequestHex(signatures=signatures_raw))
-        assert response_agg_raw.success, "failed to generate aggregated signature {}".format(response_agg.error_message)
+        response_agg_raw = stub.AggregateHex(
+            types_pb2.AggregateRequestHex(signatures=signatures_raw))
+        assert response_agg_raw.success, "failed to generate aggregated signature {}".format(
+            response_agg.error_message)
 
         # 4
         # validate the signatures
-        assert bytes.fromhex(response_agg.signature) == response_agg_raw.signature, "signatures did not match"
+        assert bytes.fromhex(
+            response_agg.signature) == response_agg_raw.signature, "signatures did not match"
 
         # 5
         # verify the aggregated signature
 
         public_keys = []
 
-        response_pk = stub.GenerateKeypairHex(types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key"))
-        assert response_pk.success, "failed to obtain public key {}".format(response_pk.error_message)
+        response_pk = stub.GenerateKeypairHex(
+            types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key"))
+        assert response_pk.success, "failed to obtain public key {}".format(
+            response_pk.error_message)
         public_keys.extend([response_pk.public_key, response_pk.public_key])
 
-        response_pk = stub.GenerateKeypairHex(types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key-1"))
-        assert response_pk.success, "failed to obtain public key {}".format(response_pk.error_message)
+        response_pk = stub.GenerateKeypairHex(
+            types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key-1"))
+        assert response_pk.success, "failed to obtain public key {}".format(
+            response_pk.error_message)
         public_keys.extend([response_pk.public_key, response_pk.public_key])
-        
-        all_messages = [messages_hex[0], messages_hex[1], messages_hex[0], messages_hex[1]]
+
+        all_messages = [messages_hex[0], messages_hex[1],
+                        messages_hex[0], messages_hex[1]]
 
         response = stub.VerifyAggregatedHex(types_pb2.VerifyAggregateRequestHex(
             public_keys=public_keys,
@@ -181,7 +209,8 @@ def test_aggregate_signing_verification():
             aggregate_signature=response_agg.signature
         ))
 
-        assert response.success and response.is_verified, "failed to verify aggregated signature {}".format(response.error_message)
+        assert response.success and response.is_verified, "failed to verify aggregated signature {}".format(
+            response.error_message)
 
 
 test_keypairs_generation()
