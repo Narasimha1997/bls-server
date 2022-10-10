@@ -11,7 +11,8 @@ with open('/tmp/keys.json', 'w') as key_store_writer:
     key_store_writer.write("{}")
 
 messages = [
-    b"this is a no man's land"
+    b"this is a no man's land",
+    b"hello, world"
 ]
 
 messages_hex = [m.hex() for m in messages]
@@ -114,5 +115,75 @@ def test_signing_and_verification():
     
     run_in_server_context(test_function)
 
+
+def test_aggregate_signing_verification():
+
+    def test_function(channel: grpc.Channel):
+        stub = BLSSigningStub(channel)
+        # 1
+        # Generate all required signatures
+
+        signatures = []
+
+        response_hex = stub.SignHex(types_pb2.SignRequestRaw(key_identity="test-key", message=messages_hex[0]))
+        assert response_hex.success, "failed to sign message {}".format(response_hex.error_message)
+
+        signatures.append(response_hex.signature)
+
+        response_hex = stub.SignHex(types_pb2.SignRequestRaw(key_identity="test-key", message=messages_hex[1]))
+        assert response_hex.success, "failed to sign message {}".format(response_hex.error_message)
+
+        signatures.append(response_hex.signature)
+
+        response_hex = stub.SignHex(types_pb2.SignRequestRaw(key_identity="test-key-1", message=messages_hex[0]))
+        assert response_hex.success, "failed to sign message {}".format(response_hex.error_message)
+
+        signatures.append(response_hex.signature)
+
+        response_hex = stub.SignHex(types_pb2.SignRequestRaw(key_identity="test-key-1", message=messages_hex[1]))
+        assert response_hex.success, "failed to sign message {}".format(response_hex.error_message)
+
+        signatures.append(response_hex.signature)
+
+        # 2
+        # generate aggregate signature
+        response_agg = stub.AggregateHex(types_pb2.AggregateRequestHex(signatures=signatures))
+        assert response_agg.success, "failed to generate aggregated signature {}".format(response_agg.error_message)
+
+        # 3
+        # generate aggregated signature using raw bytes
+        signatures_raw = [bytes.fromhex(signature) for signature in signatures]
+        response_agg_raw = stub.AggregateHex(types_pb2.AggregateRequestHex(signatures=signatures_raw))
+        assert response_agg_raw.success, "failed to generate aggregated signature {}".format(response_agg.error_message)
+
+        # 4
+        # validate the signatures
+        assert bytes.fromhex(response_agg.signature) == response_agg_raw.signature, "signatures did not match"
+
+        # 5
+        # verify the aggregated signature
+
+        public_keys = []
+
+        response_pk = stub.GenerateKeypairHex(types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key"))
+        assert response_pk.success, "failed to obtain public key {}".format(response_pk.error_message)
+        public_keys.extend([response_pk.public_key, response_pk.public_key])
+
+        response_pk = stub.GenerateKeypairHex(types_pb2.GenerateKeypairRequestHex(seed=b'', key_id="test-key-1"))
+        assert response_pk.success, "failed to obtain public key {}".format(response_pk.error_message)
+        public_keys.extend([response_pk.public_key, response_pk.public_key])
+        
+        all_messages = [messages_hex[0], messages_hex[1], messages_hex[0], messages_hex[1]]
+
+        response = stub.VerifyAggregatedHex(types_pb2.VerifyAggregateRequestHex(
+            public_keys=public_keys,
+            messages=all_messages,
+            aggregate_signature=response_agg.signature
+        ))
+
+        assert response.success and response.is_verified, "failed to verify aggregated signature {}".format(response.error_message)
+
+
 test_keypairs_generation()
 test_signing_and_verification()
+test_aggregate_signing_verification()
