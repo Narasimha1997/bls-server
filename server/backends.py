@@ -1,4 +1,5 @@
 import json
+import os
 
 
 class PrivateKeyBackendPutException(Exception):
@@ -36,7 +37,10 @@ class FileStorageBackend(PrivateKeyBackend):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
+        print(kwargs)
         self.file_path = kwargs.get('file_path', '/tmp/keys.json')
+        if not os.path.exists(self.file_path):
+            open(self.file_path, 'w').write("{}")
 
     def put(self, key_id: str, key: str) -> str:
         try:

@@ -95,7 +95,6 @@ message GenerateKeypairResponseRaw {
     string error_message = 3;
 }
 
-
 message GenerateKeypairResponseHex {
     bool success = 1;
     string public_key = 2;
